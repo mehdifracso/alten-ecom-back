@@ -17,9 +17,9 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   calculateInventoryStatus(quantity: number) {
-    if (quantity < 10) return InventoryStatus.LOWSTOCK;
     if (quantity < 1) return InventoryStatus.OUTOFSTOCK;
-    return InventoryStatus.INSTOCK;
+    else if (quantity < 10) return InventoryStatus.LOWSTOCK;
+    else return InventoryStatus.INSTOCK;
   }
 
   async getProducts(query: GetProductsQuery) {
