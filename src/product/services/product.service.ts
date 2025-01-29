@@ -50,7 +50,6 @@ export class ProductService {
         },
       })
       .catch((error) => {
-        this.logger.error(error);
         if (error.code === 'P2002') {
           const target = error.meta?.target;
           if (target) {
