@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "1ac50f04-10fc-43e4-ae99-f78f3d1a89f3",
+		"name": "Alten",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36547435"
+	},
+	"item": [
+		{
+			"name": "Alten",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Create user",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin\",\n    \"firstname\": \"admin\",\n    \"email\":  \"admin@admin.com\",\n    \"password\": \"@LabelVie2025\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/account",
+									"path": [
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.environment.set(\"jwt_token\", jsonData.access_token);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"mehdi\",\n    \"firstname\": \"mehdi\",\n    \"email\":  \"admin@admin.com\",\n    \"password\": \"@LabelVie2025\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/token",
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "Create product",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"code\": \"PRD002\",\n  \"name\": \"Sample Product\",\n  \"description\": \"A sample product description.\",\n  \"image\": \"https://example.com/product-image.jpg\",\n  \"price\": 49.99,\n  \"quantity\": 100,\n  \"internalReference\": \"INT-REF-456\",\n  \"shellId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/products",
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all products",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/products",
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get single product by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/products/cm6fmk2n00000gtre2op98abo",
+									"path": [
+										"products",
+										"cm6fmk2n00000gtre2op98abo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cart management",
+					"item": [
+						{
+							"name": "Add to cart",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"cm6fm6w9p0000gtvl9mx1cgwi\",\n  \"quantity\": 3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/cart",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update cart item",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/cart/item/{{cart_item_id}}",
+									"path": [
+										"cart",
+										"item",
+										"{{cart_item_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove cart item",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"cm6fm6w9p0000gtvl9mx1cgwi\",\n  \"quantity\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/cart/item/{{cart_item_id}}",
+									"path": [
+										"cart",
+										"item",
+										"{{cart_item_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/cart",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wishlist",
+					"item": [
+						{
+							"name": "Add to wishlist",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"cm6fmk2n00000gtre2op98abo\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/wishlist",
+									"path": [
+										"wishlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update cart item",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"cm6fm6w9p0000gtvl9mx1cgwi\",\n  \"quantity\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/wishlist/{{wishlist_item_id}}",
+									"path": [
+										"wishlist",
+										"{{wishlist_item_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove wishlist item",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": \"cm6fm6w9p0000gtvl9mx1cgwi\",\n  \"quantity\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/wishlist/items/{{wishlist_item_id}}",
+									"path": [
+										"wishlist",
+										"items",
+										"{{wishlist_item_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get wishlist",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "/wishlist",
+									"path": [
+										"wishlist"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"pm.request.url.host = pm.environment.get(\"api_url\")"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.url['host'] = pm.environment.get(\"api_url\")"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1laGRpZnJhY3NvQGdtYWlsLmNvbSIsInN1YiI6ImNtNmZveTNoYjAwMDBndG9jMHA0dWdqZDYiLCJpYXQiOjE3MzgwMjEyMzIsImV4cCI6MTczODEwNzYzMn0.Ojqp_-5DhghtvCi2bAmXORIV82Lg1cyqfCdDrd52bwQ",
+			"type": "default"
+		},
+		{
+			"key": "api_url",
+			"value": "localhost:8000",
+			"type": "default"
+		}
+	]
+}
